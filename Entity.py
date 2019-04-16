@@ -47,7 +47,7 @@ class Entity:
         return self.attributes
 
 
-    def get_records(self):
+    # def get_records(self):
         # for
 
 
@@ -58,9 +58,9 @@ class Entity:
         return self.eName
 
 
-class Columns:
+# class Columns:
 
 
-Schema.tables_class = Tables
-Schema.entity_class = Entity
-Schema.column_class = Columns
+# Schema.tables_class = Tables
+# Schema.entity_class = Entity
+# Schema.column_class = Columns
