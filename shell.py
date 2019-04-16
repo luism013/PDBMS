@@ -1,29 +1,13 @@
 #dummy class for now
-import ply.yacc as yacc
+import PDBMSParser
 
+while True:
+    try:
+        s = input('DBMS-> ')
+        s.lower()
+    except EOFError:
+        break
+    if not s: continue
+    result = PDBMSParser.parser.parse(s)
+    print(result)
 
-# # Reserved Words
-# reserved = {
-#     'from': 'FROM',
-#     'create': 'CREATE',
-#     'insert': 'INSERT',
-#     'add': 'ADD',
-#     'delete': 'DELETE',
-#     'get': 'GET',
-#     'display': 'DISPLAY',
-#     'as': 'AS',
-#     'join': 'JOIN',
-#     'where': 'WHERE',
-#     'update': 'UPDATE',
-#     'serial': 'SERIAL',
-#     'distinct': 'DISTINCT',
-#     'foreign': 'FOREIGN',
-#     'key': 'KEY',
-#     'cartesian': 'CARTESIAN',
-#     'product': 'PRODUCT',
-#     'selection': 'SELECTION',
-#     'projection': 'PROJECTION',
-#     'union': 'UNION',
-#     'intersection': 'INTERSECTION',
-#     'difference': 'DIFFERENCE'
-# }
