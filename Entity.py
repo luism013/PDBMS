@@ -3,26 +3,26 @@
 
 class Entity:
     def __init__(self, name):
-        self.eName = name
+        self.entityName = name
         self.attributes = []
         # Relationships nameoftherelationship = {cardinality=, modality =}
         self.relationships = {}
 
-    def add_relationship(self, eName, rName, cardinality, modality):
-        self.relationships[rName] = {'entity': eName, 'cardinality': cardinality, 'modality': modality}
+    # def add_relationship(self, eName, rName, cardinality, modality):
+    #     self.relationships[rName] = {'entity': eName, 'cardinality': cardinality, 'modality': modality}
 
-    def get_relationships(self):
-        return self.relationships.keys()
+    # def get_relationships(self):
+    #     return self.relationships.keys()
 
-    def __iter__(self):
-        return iter(self.relationships.items())
+    # def __iter__(self):
+    #     return iter(self.relationships.items())
 
         # We coulld add primary key and other type of attributes as keys in a dictionary instead of a list.
 
-    def add_attribute(self, aName):
-        for attribute in aName:
-            if attribute not in self.attributes:
-                self.attributes.extend(aName)
+    def add_attribute(self, attribute):
+        for a in attribute:
+            if a not in self.attributes:
+                self.attributes.extend(a)
 
     def get_attributes(self):
         return self.attributes
