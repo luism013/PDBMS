@@ -39,11 +39,14 @@ def p_show(p):
 
 parser = yacc.yacc()
 
-
-
-
-
-
-
+while True:
+    try:
+        s = input('DBMS-> ')
+        s.lower()
+    except EOFError:
+        break
+    if not s: continue
+    result = parser.parse(s)
+    print(result)
 
 
