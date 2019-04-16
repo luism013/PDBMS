@@ -26,7 +26,8 @@ reserved = {
     'into': 'INTO',
     'values': 'VALUES',
     'select': 'SELECT',
-    'references': 'REFERENCES'
+    'references': 'REFERENCES',
+    'name': 'NAME'
 }
 
 
