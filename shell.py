@@ -7,7 +7,8 @@ while True:
         s.lower()
     except EOFError:
         break
-    if not s: continue
+    if not s:
+        continue
     result = PDBMSParser.parser.parse(s)
     print(result)
 

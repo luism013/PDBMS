@@ -1,10 +1,11 @@
 import ply.lex as lex
+from ply.lex import TOKEN
 import decimal
 
 
 # Reserved Words
 reserved = {
-    'from': 'FROM',
+    'from':'FROM',
     'create': 'CREATE',
     'insert': 'INSERT',
     'delete': 'DELETE',
@@ -31,106 +32,122 @@ reserved = {
 }
 
 
-tokens = ['LPAR', 'RPAR', 'COMMA', 'SCOLON', 'DIGITS', 'WORDS', 'GTHAN', 'LTHAN', 'GETHAN', 'LETHAN', 'ETO', 'PLUS',
-          'MINUS', 'DIV', 'MOD', 'MULT', 'COMMA', 'NLINE', 'WS'] \
+tokens = ['WORDS', 'DIGITS', 'LPAR', 'RPAR', 'GTHAN', 'LTHAN' , 'GETHAN', 'LETHAN', 'ETO', 'PLUS', 'MINUS', 'MULT' , 'DIV',
+          'MOD', 'COMMA', 'SCOLON', 'NLINE', 'WS'] \
          + list(reserved.values())
 
 
-reserved_words_map = {}
-for r in reserved:
-    reserved_words_map[r.lower()] = r
+# reserved_words_map = {}
+# for r in reserved:
+#     reserved_words_map[r.lower()] = r
 
 
-def WORDS(token):
+def t_WORDS(token):
     r'[a-zA-Z_][a-zA-Z0-9_]*'
     # Checking the reserved words
     token.type = reserved.get(token.value, 'IDENTIFIER')
     return token
 
 
-def DIGITS(token):
+def t_DIGITS(token):
     r'[+-]?(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?'
     token.value = decimal.Decimal(token.value)
     return token
 
 
-def LPAR(t):
+def t_LPAR(t):
     r'\('
     return t
 
 
-def RPAR(t):
+def t_RPAR(t):
     r'\)'
     return t
 
 
-def GTHAN(t):
-    r'\>)'
+def t_GTHAN(t):
+    r'\>'
     return t
 
 
-def LTHAN(t):
+def t_LTHAN(t):
     r'/<'
     return t
 
 
-def GETHAN(t):
+def t_GETHAN(t):
     r'>='
     return t
 
 
-def LETHAN(t):
+def t_LETHAN(t):
     r'<='
     return t
 
 
-def ETO(t):
+def t_ETO(t):
     r'=='
     return t
 
 
-def PLUS(t):
+def t_PLUS(t):
     r'\+'
     return t
 
 
-def MINUS(t):
+def t_MINUS(t):
     r'\-'
     return t
 
 
-def MULT(t):
+def t_MULT(t):
     r'\*'
     return t
 
 
-def DIV(t):
+def t_DIV(t):
     r'\/'
     return t
 
 
-def MOD(t):
+def t_MOD(t):
     r'\%'
     return t
 
 
-def COMMA(t):
+def t_COMMA(t):
     r'\,'
     return t
 
-def SCOLON(t):
+
+def t_SCOLON(t):
     r'\;'
     return t
 
 
-def NLINE(token):
+def t_NLINE(token):
     r'\n+'
     token.lexer.lineno += len(token.value)
     return token
 
 
-def WS(t):
+def t_WS(t):
     r' [ ]+ '
 
 
+def t_error(t):
+     print("Illegal character '%s'" % t.value[0])
+     t.lexer.skip(1)
+
+
 lexer = lex.lex()
+data = '''
+ 3 + 4 * 10
+   + -20 *2
+ '''
+lexer.input(data)
+while True:
+     tok = lexer.token()
+     if not tok:
+         break      # No more input
+     print(tok)
