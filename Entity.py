@@ -4,63 +4,68 @@
 
 class Schema:
     def __init__(self, sname):
-        self.tables = {}
         self.name = sname
-
-    def add_tables(self, table):
-        for a in self.tables:
-            if a not in self.tables:
-                self.tables['table'] = table
-            else:
-                print("Table "+table+" already exists in schema "+self.name+".")
-                break
-
-
-class Tables:
-    def __init__(self, tname):
-        self.name = tname
         self.entities = []
 
     def add_entity(self, entity):
-        for a in self.entities:
-            if a not in self.entities:
-                self.entities.extend(entity)
+            if not self.entities.__contains__(entity):
+                self.entities.append(entity)
             else:
                 print("Entity "+entity+" already exists in table "+self.name+".")
-                break
+                # break
 
 
 class Entity:
     def __init__(self, name):
         self.entityName = name
         self.columns = []
-        # Relationships nameoftherelationship = {cardinality=, modality =}
         self.relationships = {}
 
+    def get_name(self):
+        return self.entityName
 
-    def add_attribute(self, attribute):
-        for a in attribute:
-            if a not in self.attributes:
-                self.attributes.extend(a)
+    def add_attribute(self, eName):
+        for a in eName:
+            if a not in self.columns:
+                self.columns.append(eName)
 
     def get_attributes(self):
-        return self.attributes
+        return self.columns
+
+    def add_relationship(self, name, cardinality):
+        self.relationships[name] = {'Entity' : name, 'Cardinality' : cardinality}
+
+    def get_relationship(self):
+        return self.relationships.keys()
 
 
-    # def get_records(self):
-        # for
-
-
-    def add_record(self, record):
-        return record
+class Columns:
+    def __init__(self, cname):
+        self.columnName = cname
+        self.records = []
 
     def get_name(self):
-        return self.eName
+        return self.columnName
 
+    def get_records(self):
+        # for a in self.columns:
+        return self.records
 
-# class Columns:
+    def add_record(self, record):
+        # for a in self.records:
+        if self.records.__contains__(record):
+            # if a not in self.records:
+            print("Record " + record + " already exists in column " + self.columnName + ".")
+        else:
+            self.records.append(record)
+            # break
 
-
-# Schema.tables_class = Tables
+    def remove_record(self, record):
+        for a in self.records:
+            if a not in self.records:
+                self.records.append(record)
+            else:
+                print("Record " + record + " already exists in column " + self.columnName + ".")
+                break
 # Schema.entity_class = Entity
-# Schema.column_class = Columns
+# Entity.column_class = Columns
