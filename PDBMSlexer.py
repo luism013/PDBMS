@@ -28,7 +28,13 @@ reserved = {
     'values': 'VALUES',
     'select': 'SELECT',
     'references': 'REFERENCES',
-    'name': 'NAME'
+    'name': 'NAME',
+    'table': 'TABLE',
+    'show': 'SHOW',
+    'type': 'TYPE',
+    'add': 'ADD',
+    'subtract': 'SUBTRACT',
+    'multiply': 'MULTIPLY'
 }
 
 

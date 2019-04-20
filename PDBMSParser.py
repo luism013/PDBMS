@@ -1,4 +1,5 @@
 import ply.yacc as yacc
+from PDBMSlexer import tokens
 
 
 def p_create(p):
@@ -34,7 +35,11 @@ def p_division(p):
 
 
 def p_show(p):
-    'expression: SHOW NAME'
+    'expression : SHOW NAME'
+
+
+def p_error(p):
+    print("Syntax error at '%s'" % p.value)
 
 
 parser = yacc.yacc()
