@@ -3,6 +3,9 @@ class Schema:
         self.name = sname
         self.entities = []
 
+    def __repr__(self):
+        return self.name
+
     def add_entity(self, entity):
         if not self.entities.__contains__(entity):
             self.entities.append(Entity(entity))
@@ -102,6 +105,7 @@ class Columns:
 
 
 x = Schema("StudentClass")
+print(x)
 x.add_entity("Student")
 x.get_entity("Student").add_attribute("Grades")
 x.get_entity("Student").add_attribute("Classes")
