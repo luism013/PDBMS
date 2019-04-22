@@ -39,10 +39,6 @@ class Entity:
             self.columns.append(Columns(eName))
 
     def get_attributes(self):
-        # list = []
-        # for a in self.columns:
-        #     list.append(a.get_name())
-        # return list
         return self.columns
 
     def get_column(self, aName):
@@ -113,5 +109,5 @@ x.get_entity("Student").add_attribute("Professor")
 x.get_entity("Student").get_attribute("Grades").add_record("A")
 print(x.get_entity("Student").get_attribute("Grades").get_records())
 print(x.get_entity("Student").get_attributes())
-print(x.get_entity("Student").get_attribute("Grades").get_name())
+print(x.get_entity("Student").get_attribute("Grades"))
 print(x.get_entity("Student"))
