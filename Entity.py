@@ -9,21 +9,32 @@ class Schema:
     def add_entity(self, entity):
         if not self.entities.__contains__(entity):
             self.entities.append(Entity(entity))
-
         else:
-            print("Entity " + entity.get_name() + " already exists in table " + self.name + ".")
-            # break
+            print("Entity " + entity.get_name() + " already exists in schema " + self.name + ".")
 
     def get_entity(self, eName):
         for e in self.entities:
             if e.get_name() == eName:
                 return e
 
+    def remove_entity(self, eName):
+        if self.entities.__contains__(eName):
+            self.entities.remove(eName)
+        else:
+            print("Entity " + eName.get_name() + " does not exist in schema " + self.name + ".")
+
+    def update_entity(self, old, new):
+        for a in self.entities:
+            if a == old:
+                y = self.entities.index(a)
+                self.entities.remove(a)
+                self.entities.insert(y, new)
+
 
 class Entity:
     def __init__(self, name):
         self.entityName = name
-        self.columns = []
+        self.attribute = []
         self.relationships = {}
 
     def __repr__(self):
@@ -32,24 +43,33 @@ class Entity:
     def get_name(self):
         return self.entityName
 
-    def add_attribute(self, eName):
-        # for a in self.columns:
-        #     if a not in self.columns:
-        if not self.columns.__contains__(eName):
-            self.columns.append(Columns(eName))
+    def add_attribute(self, aName):
+        if not self.attribute.__contains__(aName):
+            self.attribute.append(Columns(aName))
 
     def get_attributes(self):
-        return self.columns
+        return self.attribute
 
     def get_column(self, aName):
-        for a in self.columns:
+        for a in self.attribute:
             if a.get_name() == aName:
                 return a.get_records()
 
     def get_attribute(self, aName):
-        for a in self.columns:
+        for a in self.attribute:
             if a.get_name() == aName:
                 return a
+
+    def remove_attribute(self, aName):
+        if self.attribute.__contains__(aName):
+            self.attribute.remove(aName)
+
+    def update_attribute(self, old, new):
+        for a in self.attribute:
+            if a == old:
+                y = self.attribute.index(a)
+                self.attribute.remove(a)
+                self.attribute.insert(y, new)
 
     def add_relationship(self, name, cardinality):
         self.relationships[name] = {'Entity': name, 'Cardinality': cardinality}
@@ -75,19 +95,15 @@ class Columns:
 
     def add_record(self, record):
         if self.records.__contains__(record):
-            # if a not in self.records:
             print("Record " + record + " already exists in column " + self.columnName + ".")
         else:
             self.records.append(record)
-            # break
 
     def remove_record(self, record):
-        for a in self.records:
-            if a is record:
-                self.records.remove(a)
-            else:
-                print("Record " + record + " does not exists in column " + self.columnName + ".")
-                break
+        if self.records.__contains__(record):
+            self.records.remove(record)
+        else:
+            print("Record " + record + " does not exists in column " + self.columnName + ".")
 
     def update_record(self, old, new):
         for a in self.records:
