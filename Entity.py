@@ -23,6 +23,9 @@ class Entity:
         self.columns = []
         self.relationships = {}
 
+    def __repr__(self):
+        return self.entityName
+
     def get_name(self):
         return self.entityName
 
@@ -33,10 +36,11 @@ class Entity:
             self.columns.append(Columns(eName))
 
     def get_attributes(self):
-        list = []
-        for a in self.columns:
-            list.append(a.get_name())
-        return list
+        # list = []
+        # for a in self.columns:
+        #     list.append(a.get_name())
+        # return list
+        return self.columns
 
     def get_column(self, aName):
         for a in self.columns:
@@ -59,6 +63,9 @@ class Columns:
     def __init__(self, cname):
         self.columnName = cname
         self.records = []
+
+    def __repr__(self):
+        return self.columnName
 
     def get_name(self):
         return self.columnName
@@ -103,3 +110,4 @@ x.get_entity("Student").get_attribute("Grades").add_record("A")
 print(x.get_entity("Student").get_attribute("Grades").get_records())
 print(x.get_entity("Student").get_attributes())
 print(x.get_entity("Student").get_attribute("Grades").get_name())
+print(x.get_entity("Student"))
