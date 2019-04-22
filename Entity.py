@@ -33,7 +33,10 @@ class Entity:
             self.columns.append(Columns(eName))
 
     def get_attributes(self):
-        return self.columns
+        list = []
+        for a in self.columns:
+            list.append(a.get_name())
+        return list
 
     def get_column(self, aName):
         for a in self.columns:
@@ -65,7 +68,6 @@ class Columns:
         return self.records
 
     def add_record(self, record):
-        # for a in self.records:
         if self.records.__contains__(record):
             # if a not in self.records:
             print("Record " + record + " already exists in column " + self.columnName + ".")
@@ -75,14 +77,22 @@ class Columns:
 
     def remove_record(self, record):
         for a in self.records:
-            if a not in self.records:
-                self.records.append(record)
+            if a is record:
+                self.records.remove(a)
             else:
-                print("Record " + record + " already exists in column " + self.columnName + ".")
+                print("Record " + record + " does not exists in column " + self.columnName + ".")
                 break
+
+    def update_record(self, old, new):
+        for a in self.records:
+            if a == old:
+                y = self.records.index(a)
+                self.records.remove(a)
+                self.records.insert(y, new)
 
     # Schema.entity_class = Entity
     # Entity.column_class = Columns
+
 
 x = Schema("StudentClass")
 x.add_entity("Student")
@@ -90,4 +100,6 @@ x.get_entity("Student").add_attribute("Grades")
 x.get_entity("Student").add_attribute("Classes")
 x.get_entity("Student").add_attribute("Professor")
 x.get_entity("Student").get_attribute("Grades").add_record("A")
+print(x.get_entity("Student").get_attribute("Grades").get_records())
 print(x.get_entity("Student").get_attributes())
+print(x.get_entity("Student").get_attribute("Grades").get_name())
