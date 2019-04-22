@@ -1,7 +1,3 @@
-# this is just a carbon copy of the Entity class found in a previous project. Need to modify or find a more creative
-# way of doing this in order to avoid plagiarism.
-
-
 class Schema:
     def __init__(self, sname):
         self.name = sname
@@ -94,4 +90,3 @@ class Columns:
     x.get_entity("Student").add_attribute("Professor")
     x.entities.get_attribute("Grades").add_record("A")
     print(x.get_entity("Student").get_attributes())
-
