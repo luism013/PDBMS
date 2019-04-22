@@ -77,11 +77,18 @@ class Columns:
 
     def remove_record(self, record):
         for a in self.records:
-            if a in self.records:
-                self.records.append(record)
+            if a is record:
+                self.records.remove(a)
             else:
-                print("Record " + record + " already exists in column " + self.columnName + ".")
+                print("Record " + record + " does not exists in column " + self.columnName + ".")
                 break
+
+    def update_record(self, old, new):
+        for a in self.records:
+            if a == old:
+                y = self.records.index(a)
+                self.records.remove(a)
+                self.records.insert(y, new)
 
     # Schema.entity_class = Entity
     # Entity.column_class = Columns
