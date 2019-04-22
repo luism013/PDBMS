@@ -27,9 +27,10 @@ class Entity:
         return self.entityName
 
     def add_attribute(self, eName):
-        for a in eName:
-            if a not in self.columns:
-                self.columns.append(Columns(eName))
+        # for a in self.columns:
+        #     if a not in self.columns:
+        if not self.columns.__contains__(eName):
+            self.columns.append(Columns(eName))
 
     def get_attributes(self):
         return self.columns
@@ -83,10 +84,10 @@ class Columns:
     # Schema.entity_class = Entity
     # Entity.column_class = Columns
 
-    x = Schema("StudentClass")
-    x.add_entity("Student")
-    x.get_entity("Student").add_attribute("Grades")
-    x.get_entity("Student").add_attribute("Classes")
-    x.get_entity("Student").add_attribute("Professor")
-    x.entities.get_attribute("Grades").add_record("A")
-    print(x.get_entity("Student").get_attributes())
+x = Schema("StudentClass")
+x.add_entity("Student")
+x.get_entity("Student").add_attribute("Grades")
+x.get_entity("Student").add_attribute("Classes")
+x.get_entity("Student").add_attribute("Professor")
+x.get_entity("Student").get_attribute("Grades").add_record("A")
+print(x.get_entity("Student").get_attributes())
