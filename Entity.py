@@ -8,17 +8,11 @@ class Schema:
         self.entities = []
 
     def add_entity(self, entity):
-        if not self.entities.__contains__(entity):
-            self.entities.append(Entity(entity))
-
-        else:
-            print("Entity " + entity.get_name() + " already exists in table " + self.name + ".")
-            # break
-
-    def get_entity(self, eName):
-        for e in self.entities:
-            if e.get_name() == eName:
-                return e
+            if not self.entities.__contains__(entity):
+                self.entities.append(entity)
+            else:
+                print("Entity "+entity+" already exists in table "+self.name+".")
+                # break
 
 
 class Entity:
@@ -33,23 +27,13 @@ class Entity:
     def add_attribute(self, eName):
         for a in eName:
             if a not in self.columns:
-                self.columns.append(Columns(eName))
+                self.columns.append(eName)
 
     def get_attributes(self):
         return self.columns
 
-    def get_column(self, aName):
-        for a in self.columns:
-            if a.get_name() == aName:
-                return a.get_records()
-
-    def get_attribute(self, aName):
-        for a in self.columns:
-            if a.get_name() == aName:
-                return a
-
     def add_relationship(self, name, cardinality):
-        self.relationships[name] = {'Entity': name, 'Cardinality': cardinality}
+        self.relationships[name] = {'Entity' : name, 'Cardinality' : cardinality}
 
     def get_relationship(self):
         return self.relationships.keys()
@@ -83,15 +67,7 @@ class Columns:
             else:
                 print("Record " + record + " already exists in column " + self.columnName + ".")
                 break
+# Schema.entity_class = Entity
+# Entity.column_class = Columns
 
-    # Schema.entity_class = Entity
-    # Entity.column_class = Columns
-
-    x = Schema("StudentClass")
-    x.add_entity("Student")
-    x.get_entity("Student").add_attribute("Grades")
-    x.get_entity("Student").add_attribute("Classes")
-    x.get_entity("Student").add_attribute("Professor")
-    x.entities.get_attribute("Grades").add_record("A")
-    print(x.get_entity("Student").get_attributes())
 
