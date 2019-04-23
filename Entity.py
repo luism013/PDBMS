@@ -77,6 +77,16 @@ class Entity:
     def get_relationship(self):
         return self.relationships.keys()
 
+    # insert record into all columns
+    def mass_insert(self, index, *args):
+        for a in args:
+            self.get_attribute(index)
+
+    #delete record from all columns
+    def mass_delete(self, index):
+        for a in self.attribute:
+            self.get_attribute(a).re
+
 
 class Columns:
     def __init__(self, cname):
