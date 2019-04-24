@@ -82,22 +82,29 @@ class Entity:
         for a in self.attribute:
             a.remove_record_by_index(index)
 
-    # def show_all(self):
-    #     list = [self.attribute]
-    #     list_row = self.mass_select()
-    #     list.append(list_row)
-    #     print(list)
+    def show_all(self):
+        row = [self.attribute]
+        temp = []
+        for i in range(len(self.attribute)-1):
+            for a in self.attribute:
+                temp.append(a.select_record_by_index(i))
+            row.append(temp)
+            temp = []
 
-    # def mass_select(self):
-    #     row = []
-    #     for a in self.attribute:
-    #         y = a.get_length()
-    #         break
-    #
-    #     for i in range(y):
-    #         for a in self.attribute:
-    #             row.append(a.select_record_by_index(i))
-    #     return row
+        # for b in row:
+        #     print(b)
+
+        dash = '-' * 40
+
+        for i in range(len(row)):
+            if i == 0:
+                print(dash)
+                print('{:<10}{:>4}{:>12}'.format(str(row[i][0]), str(row[i][1]), str(row[i][2])))
+                print(dash)
+            else:
+                print('{:<10}{:>4}{:>12}'.format(str(row[i][0]), str(row[i][1]), str(row[i][2])))
+
+        return row
 
 
 class Columns:
@@ -134,25 +141,28 @@ class Columns:
                 self.records.remove(a)
                 self.records.insert(y, new)
 
+    def select_record_by_index(self, index):
+        return self.records[index]
+
 
 # tests that the entity class still works
-# x = Schema("StudentClass")
-# print(x)
-# x.add_entity("Student")
-# x.get_entity("Student").add_attribute("Grades")
-# x.get_entity("Student").add_attribute("Classes")
-# x.get_entity("Student").add_attribute("Professor")
-# x.get_entity("Student").get_attribute("Grades").add_record("A")
-# x.get_entity("Student").get_attribute("Classes").add_record("PL")
-# x.get_entity("Student").get_attribute("Professor").add_record("Wilson Rivera")
-# print(x.get_entity("Student").get_attribute("Grades").get_records())
-# print(x.get_entity("Student").get_attributes())
-# print(x.get_entity("Student"))
-# x.get_entity("Student").mass_insert("W", "Data", "Pedro Rivera")
-# print(x.get_entity("Student").get_attribute("Grades").get_records())
-# print(x.get_entity("Student").get_attribute("Professor").get_records())
-# print(x.get_entity("Student").get_attribute("Classes").get_records())
-# x.get_entity("Student").show_all()
+x = Schema("StudentClass")
+print(x)
+x.add_entity("Student")
+x.get_entity("Student").add_attribute("Grades")
+x.get_entity("Student").add_attribute("Classes")
+x.get_entity("Student").add_attribute("Professor")
+x.get_entity("Student").get_attribute("Grades").add_record("A")
+x.get_entity("Student").get_attribute("Classes").add_record("PL")
+x.get_entity("Student").get_attribute("Professor").add_record("Wilson Rivera")
+print(x.get_entity("Student").get_attribute("Grades").get_records())
+print(x.get_entity("Student").get_attributes())
+print(x.get_entity("Student"))
+x.get_entity("Student").mass_insert("W", "Data", "Pedro Rivera")
+print(x.get_entity("Student").get_attribute("Grades").get_records())
+print(x.get_entity("Student").get_attribute("Professor").get_records())
+print(x.get_entity("Student").get_attribute("Classes").get_records())
+x.get_entity("Student").show_all()
 # x.get_entity("Student").mass_delete(0)
 # print(x.get_entity("Student").get_attribute("Grades").get_records())
 # print(x.get_entity("Student").get_attribute("Professor").get_records())

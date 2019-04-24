@@ -2,9 +2,18 @@ import ply.lex as lex
 import ply.yacc as yacc
 import Entity
 
+x = Entity.Schema("temp")
+
 reserved = {
     'create': 'CREATE',
-    'table': 'TABLE'
+    'table': 'TABLE',
+    'update': 'UPDATE',
+    'delete': 'DELETE',
+    'select': 'SELECT',
+    'insert': 'INSERT',
+    'values': 'VALUES',
+    'into': 'INTO',
+    'column': 'COLUMN'
 }
 
 tokens = ['WORDS', 'NUMBER', 'LPAR', 'RPAR', 'COLON'] + list(reserved.values())
@@ -55,13 +64,27 @@ lexer = lex.lex()
 
 def p_statement(p):
     'Exp : CREATE TABLE WORDS LPAR def RPAR'
-    x = Entity.Schema("temp")
     x.add_entity(p[3])
     string = p[5]
     for r in string.split(":"):
         x.get_entity(p[3]).add_attribute(r)
 
-    p[0]= "Created table " + p[3] + ",bitch"
+    p[0]= "Created table " + p[3]
+
+def p_delete(p):
+    'Exp : DELETE TABLE WORDS'
+
+    x.remove_entity(p[3])
+
+
+def p_insert(p):
+    'Exp : INSERT INTO WORDS VALUES LPAR def RPAR'
+    string = p[6]
+    x.get_entity(p[3]).mass_insert(string.split(":"))
+
+
+def p_update(p):
+    'Exp : UPDATE TABLE WORDS COLUMN WORDS '
 
 
 def p_def_r(p):
@@ -89,11 +112,22 @@ def p_term_number(p):
 
     p[0] = p[1]
 
-# def p_error(p):
-#     print("Syntax error at '%s'" % repr(p)) #p.value)
+def p_error(p):
+    print("Syntax error at '%s'" % repr(p)) #p.value)
 
 
 yacc = yacc.yacc()
 
-result = yacc.parse("create table yike ( hello:123:hello )")
-print(result)
+# result = yacc.parse("create table yes (name:lasttname:age)")
+# print(result)
+
+while True:
+    try:
+        s = input('DBMS-> ')
+        s.lower()
+    except EOFError:
+        break
+    if not s:
+        continue
+    result = yacc.parse(s)
+    print(result)
