@@ -1,60 +1,99 @@
+import ply.lex as lex
 import ply.yacc as yacc
-from PDBMSlexer import tokens
-from Entity import Schema, Entity, Columns
+import Entity
+
+reserved = {
+    'create': 'CREATE',
+    'table': 'TABLE'
+}
+
+tokens = ['WORDS', 'NUMBER', 'LPAR', 'RPAR', 'COLON'] + list(reserved.values())
 
 
-def p_create_table(p):
-    'expression : CREATE TABLE NAME LPAR NAME TYPE COMMA NAME TYPE RPAR'
+t_LPAR = r'\('
 
 
-def p_insert_into_table(p):
-    'expression : INSERT INTO NAME LPAR NAME RPAR COMMA LPAR VALUES RPAR'
+t_RPAR = r'\)'
+
+t_COLON = r'\:'
 
 
-def p_delete_from_table(p):
-    'expression : DELETE FROM NAME WHERE LPAR VALUES ETO VALUES RPAR'
+t_ignore = '\t \n'
+
+def t_WORDS(t):
+    r'[a-zA-Z_][a-zA-Z0-9_]*'
+    if t.value in reserved:
+        t.type = reserved[t.value]
+    return t
 
 
-def p_select_from_table(p):
-    'expression : SELECT FROM NAME WHERE LPAR VALUES ETO VALUES RPAR'
-
-# def p_add_to_table(p):
-#     'expression : ADD FROM NAME LPAR VALUES PLUS VALUES RPAR'
-
-def p_update_table(p):
-    'expression : ADD FROM NAME LPAR VALUES PLUS VALUES RPAR'
+def t_NUMBER(t):
+    r'\d+'
+    return t
 
 
-# def p_subtract(p):
-#     'expression : SUBTRACT FROM NAME LPAR VALUES MINUS VALUES RPAR'
+def t_error(t):
+    print("Illegal character '%s'" % t.value[0])
+    t.lexer.skip(1)
+
+
+lexer = lex.lex()
+
+
+# lexer.input("hi name is cuck")
 #
-#
-# def p_multiply(p):
-#     'expression : MULTIPLY FROM NAME LPAR VALUES MULT VALUES RPAR'
-#
-#
-# def p_division(p):
-#     'expression : MULTIPLY FROM NAME LPAR VALUES DIV VALUES RPAR'
+# while True:
+#     tok = lexer.token()
+#     if not tok:
+#         break
+#     print(tok)
+
+# def splitcolums(string):
+#     result =
+#     return result
 
 
-def p_show(p):
-    'expression : SHOW NAME'
+def p_statement(p):
+    'Exp : CREATE TABLE WORDS LPAR def RPAR'
+    x = Entity.Schema("temp")
+    x.add_entity(p[3])
+    string = p[5]
+    for r in string.split(":"):
+        x.get_entity(p[3]).add_attribute(r)
+
+    p[0]= "Created table " + p[3] + ",bitch"
 
 
-def p_error(p):
-    print("Syntax error at '%s'" % p.value)
+def p_def_r(p):
+    'def : defRec'
+    p[0] = p[1]
 
 
-parser = yacc.yacc()
-
-while True:
-    try:
-        s = input('DBMS-> ')
-        s.lower()
-    except EOFError:
-        break
-    if not s: continue
-    result = parser.parse(s)
-    print(result)
+def p_def(p):
+    'def : term'
+    p[0] = p[1]
 
 
+def p_def_rec(p):
+    'defRec : def COLON def'
+    p[0] = p[1]+ p[2] +p[3]
+
+
+def p_term_words(p):
+    'term : WORDS'
+    p[0] = p[1]
+
+
+def p_term_number(p):
+    'term : NUMBER'
+
+    p[0] = p[1]
+
+# def p_error(p):
+#     print("Syntax error at '%s'" % repr(p)) #p.value)
+
+
+yacc = yacc.yacc()
+
+result = yacc.parse("create table yike ( hello:123:hello )")
+print(result)

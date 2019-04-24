@@ -35,7 +35,6 @@ class Entity:
     def __init__(self, name):
         self.entityName = name
         self.attribute = []
-        # self.relationships = {}
 
     def __repr__(self):
         return self.entityName
@@ -71,12 +70,6 @@ class Entity:
                 self.attribute.remove(a)
                 self.attribute.insert(y, new)
 
-    # def add_relationship(self, name, cardinality):
-    #     self.relationships[name] = {'Entity': name, 'Cardinality': cardinality}
-    #
-    # def get_relationship(self):
-    #     return self.relationships.keys()
-
     # insert record into all columns. Must make sure that the order of arguments is the correct one
     def mass_insert(self, *args):
         n = 0
@@ -88,6 +81,23 @@ class Entity:
     def mass_delete(self, index):
         for a in self.attribute:
             a.remove_record_by_index(index)
+
+    # def show_all(self):
+    #     list = [self.attribute]
+    #     list_row = self.mass_select()
+    #     list.append(list_row)
+    #     print(list)
+
+    # def mass_select(self):
+    #     row = []
+    #     for a in self.attribute:
+    #         y = a.get_length()
+    #         break
+    #
+    #     for i in range(y):
+    #         for a in self.attribute:
+    #             row.append(a.select_record_by_index(i))
+    #     return row
 
 
 class Columns:
@@ -124,34 +134,27 @@ class Columns:
                 self.records.remove(a)
                 self.records.insert(y, new)
 
-    def remove_record_by_index(self, index):
-        if self.records.__len__()>index:
-            self.records.pop(index)
-        else:
-            print("Record at index" + index + " does not exists in column " + self.columnName + ".")
 
-    # Schema.entity_class = Entity
-    # Entity.column_class = Columns
-
-
-x = Schema("StudentClass")
-print(x)
-x.add_entity("Student")
-x.get_entity("Student").add_attribute("Grades")
-x.get_entity("Student").add_attribute("Classes")
-x.get_entity("Student").add_attribute("Professor")
-x.get_entity("Student").get_attribute("Grades").add_record("A")
-x.get_entity("Student").get_attribute("Classes").add_record("PL")
-x.get_entity("Student").get_attribute("Professor").add_record("Wilson Rivera")
+# tests that the entity class still works
+# x = Schema("StudentClass")
+# print(x)
+# x.add_entity("Student")
+# x.get_entity("Student").add_attribute("Grades")
+# x.get_entity("Student").add_attribute("Classes")
+# x.get_entity("Student").add_attribute("Professor")
+# x.get_entity("Student").get_attribute("Grades").add_record("A")
+# x.get_entity("Student").get_attribute("Classes").add_record("PL")
+# x.get_entity("Student").get_attribute("Professor").add_record("Wilson Rivera")
 # print(x.get_entity("Student").get_attribute("Grades").get_records())
 # print(x.get_entity("Student").get_attributes())
 # print(x.get_entity("Student"))
-x.get_entity("Student").mass_insert("W", "Data", "Pedro Rivera")
-print(x.get_entity("Student").get_attribute("Grades").get_records())
-print(x.get_entity("Student").get_attribute("Professor").get_records())
-print(x.get_entity("Student").get_attribute("Classes").get_records())
-x.get_entity("Student").mass_delete(0)
-print(x.get_entity("Student").get_attribute("Grades").get_records())
-print(x.get_entity("Student").get_attribute("Professor").get_records())
-print(x.get_entity("Student").get_attribute("Classes").get_records())
+# x.get_entity("Student").mass_insert("W", "Data", "Pedro Rivera")
+# print(x.get_entity("Student").get_attribute("Grades").get_records())
+# print(x.get_entity("Student").get_attribute("Professor").get_records())
+# print(x.get_entity("Student").get_attribute("Classes").get_records())
+# x.get_entity("Student").show_all()
+# x.get_entity("Student").mass_delete(0)
+# print(x.get_entity("Student").get_attribute("Grades").get_records())
+# print(x.get_entity("Student").get_attribute("Professor").get_records())
+# print(x.get_entity("Student").get_attribute("Classes").get_records())
 
