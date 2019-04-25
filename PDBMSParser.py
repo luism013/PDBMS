@@ -1,80 +1,17 @@
-import ply.lex as lex
 import ply.yacc as yacc
-import Entity
+import PDBMS
+from PDBMSlexer import tokens
 
-x = Entity.Schema("temp")
+x = PDBMS.Schema("Test")
 
-reserved = {
-    'create': 'CREATE',
-    'table': 'TABLE',
-    'update': 'UPDATE',
-    'delete': 'DELETE',
-    'select': 'SELECT',
-    'insert': 'INSERT',
-    'values': 'VALUES',
-    'into': 'INTO',
-    'column': 'COLUMN'
-}
-
-tokens = ['WORDS', 'NUMBER', 'LPAR', 'RPAR', 'COLON'] + list(reserved.values())
-
-
-t_LPAR = r'\('
-
-
-t_RPAR = r'\)'
-
-t_COLON = r'\:'
-
-
-t_ignore = '\t \n'
-
-def t_WORDS(t):
-    r'[a-zA-Z_][a-zA-Z0-9_]*'
-    if t.value in reserved:
-        t.type = reserved[t.value]
-    return t
-
-
-def t_NUMBER(t):
-    r'\d+'
-    return t
-
-
-def t_error(t):
-    print("Illegal character '%s'" % t.value[0])
-    t.lexer.skip(1)
-
-
-lexer = lex.lex()
-
-
-# lexer.input("hi name is cuck")
-#
-# while True:
-#     tok = lexer.token()
-#     if not tok:
-#         break
-#     print(tok)
-
-# def splitcolums(string):
-#     result =
-#     return result
-
-
-def p_statement(p):
+# works
+def p_create(p):
     'Exp : CREATE TABLE WORDS LPAR def RPAR'
     x.add_entity(p[3])
     string = p[5]
     for r in string.split(":"):
         x.get_entity(p[3]).add_attribute(r)
-
-    p[0]= "Created table " + p[3]
-
-def p_delete(p):
-    'Exp : DELETE TABLE WORDS'
-
-    x.remove_entity(p[3])
+    p[0] = "Created table " + p[3]
 
 
 def p_insert(p):
@@ -83,8 +20,27 @@ def p_insert(p):
     x.get_entity(p[3]).mass_insert(string.split(":"))
 
 
-def p_update(p):
-    'Exp : UPDATE TABLE WORDS COLUMN WORDS '
+# def p_update(p):
+#     'Exp : UPDATE TABLE WORDS COLUMN WORDS WHERE RECORD EQUALS WORDS '
+#     x.get_entity(p[3]).get_attribute(p[5]).
+
+
+def p_delete(p):
+    'Exp : DELETE TABLE WORDS'
+    y = p[3]
+    if x.remove_entity(p[3]):
+        p[0] = "Deleted table "+p[3]
+
+
+def p_selectAllEntity(p):
+    'Exp : SHOW ALL FROM WORDS'
+    x.get_entity(p[4]).show_all()
+
+# works
+def p_selectAllSchema(p):
+    'Exp : SHOW ALL ENTITIES'
+    print ('Schema :'+x.name)
+    print (x.get_entities())
 
 
 def p_def_r(p):
@@ -109,8 +65,8 @@ def p_term_words(p):
 
 def p_term_number(p):
     'term : NUMBER'
-
     p[0] = p[1]
+
 
 def p_error(p):
     print("Syntax error at '%s'" % repr(p)) #p.value)
