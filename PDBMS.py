@@ -22,13 +22,14 @@ class Schema:
         return self.entities
 
     def remove_entity(self, eName):
-        if eName not in self.entities:
+        if self.get_entity(eName):
      #   if self.get_entity(eName) not in self.entities:
      #   if not self.entities.__contains__(self.get_entity(eName)):
      #   if self.get_entity(eName) is None:
-            print("Entity " + eName + " does not exist in schema " + self.name + ".")
-        else:
             self.entities.remove(self.get_entity(eName))
+        else:
+            print("Entity " + eName + " does not exist in schema " + self.name + ".")
+
 
 
     def update_entity(self, old, new):
