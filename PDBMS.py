@@ -15,7 +15,7 @@ class Schema:
 
     def get_entity(self, eName):
         for e in self.entities:
-            if e.get_name() is eName:
+            if getattr(e, 'entityName') == eName:
                 return e
 
     def get_entities(self):
@@ -23,7 +23,8 @@ class Schema:
 
     def remove_entity(self, eName):
         for a in self.entities:
-            if a.get_name() is eName:
+            print("iterating")
+            if getattr(a, 'entityName') == eName:
                 self.entities.remove(a)
                 print("Entity " + eName + " has been removed")
                 return
@@ -36,10 +37,16 @@ class Schema:
                 self.entities.remove(a)
                 self.entities.insert(y, new)
 
+    def rename_entity(self, oldName, newName):
+        for a in self.entities:
+            if getattr(a, 'entityName') == oldName:
+                setattr(a, 'entityName', newName)
+
+
 
 class Entity:
-    def __init__(self, name):
-        self.entityName = name
+    def __init__(self, name: str):
+        self.entityName:str = name
         self.attribute = []
 
     def __repr__(self):
@@ -71,21 +78,20 @@ class Entity:
 
     def update_attribute(self, old, new):
         for a in self.attribute:
-            if a.get_name() == old:
+            if getattr(a, 'columnName') == old:
                 y = self.attribute.index(a)
                 self.attribute.remove(a)
                 self.attribute.insert(y, Columns(new))
-
-
+                break
 
     # insert record into all columns. Must make sure that the order of arguments is the correct one
-    def mass_insert(self, *args):
+    def mass_insert(self, args):
         n = 0
         for a in self.attribute:
             a.add_record(args[n])
             n += 1
 
-    #delete record from all columns
+    # delete record from all columns
     def mass_delete(self, index):
         print(len(self.attribute))
         for a in self.attribute:

@@ -18,8 +18,10 @@ reserved = {
     'show': 'SHOW',
     'entities': 'ENTITIES',
     'rename': 'RENAME',
-    'tables' : 'TABLES',
-    'with' : 'WITH'
+    'tables': 'TABLES',
+    'with': 'WITH',
+    'to': 'TO',
+    'entity': 'Entity'
 }
 
 tokens = ['WORDS', 'NUMBER', 'LPAR', 'RPAR', 'COLON', 'EQUALS'] + list(reserved.values())

@@ -6,6 +6,8 @@ from PDBMSlexer import tokens
 x = Schema("Test")
 # ENTITIES --------------------------------------------------------------------------------
 # works
+
+
 def p_create(p): #create table tName (values)
     'Exp : CREATE TABLE WORDS LPAR def RPAR'
     x.add_entity(p[3])
@@ -15,6 +17,7 @@ def p_create(p): #create table tName (values)
         x.get_entity(p[3]).add_attribute(r)
     p[0] = "Created table " + p[3]
 
+
 # works
 def p_delete(p):
     'Exp : DELETE TABLE WORDS'
@@ -23,7 +26,7 @@ def p_delete(p):
 
 
 # works
-def p_selectAll(p): #show all tables
+def p_selectAll(p): # show all tables
     'Exp : SHOW ALL TABLES'
     print('Schema :'+x.name)
     print(x.get_entities())
@@ -36,20 +39,25 @@ def p_selectEntity(p): # show table tName
 
 
 # update certain attribute but completely removes previous records from deleted attribute
-def updateEntity(p): #update column (att1:att2) from tName
+def p_updateEntity(p): # update column (att1:att2) from tName
     'Exp : UPDATE COLUMN LPAR def RPAR FROM WORDS'
-
-
+    x.update_entity(p[7], p[4])
 
 
 # just changes name, leaves all attributes and records intact
-def renameEntity(p): #rename table tName to tName2
+def p_renameEntity(p): # rename table tName to tName2
     'Exp : RENAME TABLE WORDS TO WORDS'
+    x.rename_entity(p[3], p[5])
+    p[0] = "Table " + p[3] + " has been changed to " + p[5]
 
 # RECORDS --------------------------------------------------------------------------------------------
 
+
 def p_insertIntoEntity(p): # insert (values) into tName
     'Exp : INSERT LPAR def RPAR INTO WORDS'
+    y = x.get_entity(p[6])
+    y.mass_insert(p[3].split(':'))
+    p[0] = ""
 
 
 def p_selectAllRecords(p): #show all from tName
@@ -83,7 +91,7 @@ def p_def(p):
 
 def p_def_rec(p):
     'defRec : def COLON def'
-    p[0] = p[1]+ p[2] +p[3]
+    p[0] = p[1] + p[2] + p[3]
 
 
 def p_term_words(p):
