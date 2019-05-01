@@ -22,14 +22,15 @@ class Schema:
         return self.entities
 
     def remove_entity(self, eName):
-        if eName not in self.entities:
-     #   if self.get_entity(eName) not in self.entities:
-     #   if not self.entities.__contains__(self.get_entity(eName)):
-     #   if self.get_entity(eName) is None:
-            print("Entity " + eName + " does not exist in schema " + self.name + ".")
-        else:
-            self.entities.remove(self.get_entity(eName))
-
+     #    if eName not in self.entities:
+     #        print("Entity " + eName + " does not exist in schema " + self.name + ".")
+     #    else:
+     #        self.entities.remove(self.get_entity(eName))
+        for a in self.entities:
+            if a is Entity(eName):
+                self.entities.remove(a)
+                return
+        print("Entity " + eName + " does not exist in schema " + self.name + ".")
 
     def update_entity(self, old, new):
         for a in self.entities:
@@ -40,7 +41,7 @@ class Schema:
 
 
 class Entity:
-    def __init__(self, name):
+    def __init__(self, name: str):
         self.entityName = name
         self.attribute = []
 
@@ -154,14 +155,14 @@ class Columns:
 
 
 # tests that the entity class still works
-x = Schema("StudentClass")
-# print(x)
-x.add_entity("Student")
-print(x.entities)
-x.remove_entity("Student")
-print(x.entities)
-x.remove_entity("Student")
-print(x.entities)
+# x = Schema("StudentClass")
+# # print(x)
+# x.add_entity("Student")
+# print(x.entities)
+# x.remove_entity("Student")
+# print(x.entities)
+# x.remove_entity("Student")
+# print(x.entities)
 
 # print(x.entities.__contains__("Student"))
 # x.add_entity("Student")

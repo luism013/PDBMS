@@ -1,23 +1,54 @@
 import ply.yacc as yacc
-import PDBMS
+from PDBMS import Entity
 from PDBMSlexer import tokens
 
-x = PDBMS.Schema("Test")
-
+x = []
+# ENTITIES --------------------------------------------------------------------------------
 # works
-def p_create(p):
+def p_create(p): #create table tName (values)
     'Exp : CREATE TABLE WORDS LPAR def RPAR'
-    x.add_entity(p[3])
+    # x.add_entity(p[3])
+    y = Entity(p[3])
     string = p[5]
     for r in string.split(":"):
-        x.get_entity(p[3]).add_attribute(r)
+        y.add_attribute(r)
+    x.append(y)
     p[0] = "Created table " + p[3]
 
 
-def p_insert(p):
-    'Exp : INSERT INTO WORDS VALUES LPAR def RPAR'
-    string = p[6]
-    x.get_entity(p[3]).mass_insert(string.split(":"))
+def p_delete(p): #delete table tName
+    'Exp : DELETE TABLE WORDS'
+    # y = Entity(p[3])
+    # if x.remove(y):
+    #     p[0] = "Deleted table "+p[3]
+    for a in x:
+        if a.entityName is p[3]:
+            x.remove(a)
+            break
+    # if x.__contains__()
+
+
+# works
+def p_selectAll(p): #show all entities
+    'Exp : SHOW ALL ENTITIES'
+    # print ('Schema :'+x.name)
+    print(x)
+
+
+def p_selectEntity(p): # show entity tName
+    'Exp : SHOW ENTITY WORDS'
+#     to be impemented with show all from entity
+
+
+#update certain attribute but completely removes previous records from deleted attribute
+def updateEntity(p):
+    'Exp : UPDATE COLUMN LPAR def RPAR FROM WORDS'
+
+
+# RECORDS --------------------------------------------------------------------------------------------
+
+def p_insertIntoEntity(p): # insert (values) into tName
+    'Exp : INSERT LPAR def RPAR INTO WORDS'
 
 
 # def p_update(p):
@@ -25,23 +56,11 @@ def p_insert(p):
 #     x.get_entity(p[3]).get_attribute(p[5]).
 
 
-def p_delete(p):
-    'Exp : DELETE TABLE WORDS'
-    y = p[3]
-    if x.remove_entity(p[3]):
-        p[0] = "Deleted table "+p[3]
-
-
-def p_selectAllEntity(p):
+def p_selectAllRecords(p): #show all from tName
     'Exp : SHOW ALL FROM WORDS'
     x.get_entity(p[4]).show_all()
 
-# works
-def p_selectAllSchema(p):
-    'Exp : SHOW ALL ENTITIES'
-    print ('Schema :'+x.name)
-    print (x.get_entities())
-
+# PARSER METHODS -------------------------------------------------------------------------------------
 
 def p_def_r(p):
     'def : defRec'

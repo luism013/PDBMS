@@ -3,10 +3,10 @@ import ply.lex as lex
 
 reserved = {
     'create': 'CREATE',
-    'table': 'TABLE',
     'update': 'UPDATE',
     'delete': 'DELETE',
     'select': 'SELECT',
+    'table': 'TABLE',
     'insert': 'INSERT',
     'values': 'VALUES',
     'into': 'INTO',
@@ -16,7 +16,8 @@ reserved = {
     'all': 'ALL',
     'from': 'FROM',
     'show': 'SHOW',
-    'entities': 'ENTITIES'
+    'entities': 'ENTITIES',
+    ''
 }
 
 tokens = ['WORDS', 'NUMBER', 'LPAR', 'RPAR', 'COLON', 'EQUALS'] + list(reserved.values())
