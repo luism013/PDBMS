@@ -15,17 +15,11 @@ def p_create(p): #create table tName (values)
     x.append(y)
     p[0] = "Created table " + p[3]
 
-
-def p_delete(p): #delete table tName
+# works
+def p_delete(p):
     'Exp : DELETE TABLE WORDS'
-    # y = Entity(p[3])
-    # if x.remove(y):
-    #     p[0] = "Deleted table "+p[3]
-    for a in x:
-        if a.entityName is p[3]:
-            x.remove(a)
-            break
-    # if x.__contains__()
+    x.remove_entity(p[3])
+    p[0] = ""
 
 
 # works
@@ -40,9 +34,11 @@ def p_selectEntity(p): # show table tName
 #     to be impemented with show all from entity
 
 
-#update certain attribute but completely removes previous records from deleted attribute
+# update certain attribute but completely removes previous records from deleted attribute
 def updateEntity(p): #update column (att1:att2) from tName
     'Exp : UPDATE COLUMN LPAR def RPAR FROM WORDS'
+
+
 
 
 # just changes name, leaves all attributes and records intact
