@@ -55,6 +55,7 @@ def p_addColumnToEntity(p): #update tName where record = value with (values)
     x.get_entity(p[5]).add_attribute(p[3])
     p[0] = "Inserted attribute "+p[3]+" into "+p[5]
 
+
 # RECORDS --------------------------------------------------------------------------------------------
 
 
