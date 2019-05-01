@@ -17,6 +17,7 @@ reserved = {
     'from': 'FROM',
     'show': 'SHOW',
     'entities': 'ENTITIES',
+    'rename': 'RENAME'
 }
 
 tokens = ['WORDS', 'NUMBER', 'LPAR', 'RPAR', 'COLON', 'EQUALS'] + list(reserved.values())
