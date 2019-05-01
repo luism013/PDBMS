@@ -11,7 +11,6 @@ x = Schema("Test")
 def p_create(p): #create table tName (values)
     'Exp : CREATE TABLE WORDS LPAR def RPAR'
     x.add_entity(p[3])
-    # y = Entity(p[3])
     string = p[5]
     for r in string.split(":"):
         x.get_entity(p[3]).add_attribute(r)
@@ -45,10 +44,16 @@ def p_updateEntity(p): # update column (att1:att2) from tName
 
 
 # just changes name, leaves all attributes and records intact
-def p_renameEntity(p): # rename table tName to tName2
+def p_renameEntity(p): #rename table tName to tName2
     'Exp : RENAME TABLE WORDS TO WORDS'
     x.rename_entity(p[3], p[5])
     p[0] = "Table " + p[3] + " has been changed to " + p[5]
+
+
+def p_addColumnToEntity(p): #update tName where record = value with (values)
+    'Exp : INSERT COLUMN term INTO WORDS'
+    x.get_entity(p[5]).add_attribute(p[3])
+    p[0] = "Inserted attribute "+p[3]+" into "+p[5]
 
 # RECORDS --------------------------------------------------------------------------------------------
 
@@ -57,7 +62,7 @@ def p_insertIntoEntity(p): # insert (values) into tName
     'Exp : INSERT LPAR def RPAR INTO WORDS'
     y = x.get_entity(p[6])
     y.mass_insert(p[3].split(':'))
-    p[0] = ""
+    p[0] = "Inserted records into table "+p[6]
 
 
 def p_selectAllRecords(p): #show all from tName
@@ -70,11 +75,17 @@ def p_selectRecord(p): #show rName from tName
 
 
 def p_deleteRecord(p): #delete from tname where record = value
-    'Exp : DELETE FROM WORDS WHERE WORDS EQUALS WORDS'
+    'Exp : DELETE FROM WORDS AT NUMBER'
+    x.get_entity(p[3]).mass_delete(p[5])
+    p[0] = 'Deleted records from table '+p[3]
 
 
 def p_updateRecord(p): #update tName where record = value with (values)
-    'Exp : UPDATE WORDS WHERE WORDS EQUALS WORDS WITH LPAR def RPAR'
+    'Exp : UPDATE WORDS AT NUMBER WITH LPAR def RPAR'
+    x.get_entity(p[3]).mass_delete(p[2])
+    string = p[7]
+    x.get_entity().mass_insert(string.split(":"))
+    p[0] = "Updated records in table "+p[2]
 
 
 # PARSER METHODS -------------------------------------------------------------------------------------

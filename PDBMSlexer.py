@@ -11,24 +11,24 @@ reserved = {
     'values': 'VALUES',
     'into': 'INTO',
     'column': 'COLUMN',
-    'where' : 'WHERE',
+    'where': 'WHERE',
     'record': 'RECORD',
     'all': 'ALL',
     'from': 'FROM',
     'show': 'SHOW',
     'entities': 'ENTITIES',
     'rename': 'RENAME',
+    'entity': 'Entity',
     'tables': 'TABLES',
     'with': 'WITH',
-    'to': 'TO',
-    'entity': 'Entity'
+    'at': 'AT',
+    'to': 'TO'
 }
 
 tokens = ['WORDS', 'NUMBER', 'LPAR', 'RPAR', 'COLON', 'EQUALS'] + list(reserved.values())
 
 
 t_LPAR = r'\('
-
 
 t_RPAR = r'\)'
 
