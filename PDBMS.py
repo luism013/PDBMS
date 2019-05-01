@@ -23,9 +23,10 @@ class Schema:
 
     def remove_entity(self, eName):
         for a in self.entities:
-            self.entities.remove(a)
-            print("Entity " + eName + " has been removed")
-            return
+            if a.get_name() is eName:
+                self.entities.remove(a)
+                print("Entity " + eName + " has been removed")
+                return
         print("Entity " + eName + " does not exist in schema " + self.name + ".")
 
     def update_entity(self, old, new):

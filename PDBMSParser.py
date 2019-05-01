@@ -1,18 +1,18 @@
 import ply.yacc as yacc
 from PDBMS import Entity
+from PDBMS import Schema
 from PDBMSlexer import tokens
 
-x = []
+x = Schema("Test")
 # ENTITIES --------------------------------------------------------------------------------
 # works
 def p_create(p): #create table tName (values)
     'Exp : CREATE TABLE WORDS LPAR def RPAR'
-    # x.add_entity(p[3])
-    y = Entity(p[3])
+    x.add_entity(p[3])
+    # y = Entity(p[3])
     string = p[5]
     for r in string.split(":"):
-        y.add_attribute(r)
-    x.append(y)
+        x.get_entity(p[3]).add_attribute(r)
     p[0] = "Created table " + p[3]
 
 # works
@@ -22,12 +22,12 @@ def p_delete(p):
     p[0] = ""
 
 
-
 # works
 def p_selectAll(p): #show all tables
     'Exp : SHOW ALL TABLES'
-    # print ('Schema :'+x.name)
-    print(x)
+    print('Schema :'+x.name)
+    print(x.get_entities())
+    p[0] = ""
 
 
 def p_selectEntity(p): # show table tName
