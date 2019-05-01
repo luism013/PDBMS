@@ -27,7 +27,6 @@ def p_insert(p):
 
 def p_delete(p):
     'Exp : DELETE TABLE WORDS'
-    y = p[3]
     if x.remove_entity(p[3]):
         p[0] = "Deleted table "+p[3]
 
@@ -74,8 +73,9 @@ def p_error(p):
 
 yacc = yacc.yacc()
 
-# result = yacc.parse("create table yes (name:lasttname:age)")
-# print(result)
+yacc.parse("create table yes (name:lasttname:age)")
+# result = yacc.parse("delete table yes")
+#
 
 while True:
     try:
