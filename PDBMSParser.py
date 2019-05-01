@@ -22,6 +22,7 @@ def p_delete(p):
     p[0] = ""
 
 
+
 # works
 def p_selectAll(p): #show all tables
     'Exp : SHOW ALL TABLES'
