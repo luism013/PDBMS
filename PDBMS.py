@@ -125,6 +125,7 @@ class Entity:
         return row
 
 
+
 class Columns:
     def __init__(self, cname: str):
         self.columnName = cname
