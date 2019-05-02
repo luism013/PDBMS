@@ -34,7 +34,7 @@ class Schema:
 
     def update_entity(self, old, new):
         for a in self.entities:
-            if a == old:
+            if getattr(a, 'entityName') == old:
                 y = self.entities.index(a)
                 self.entities.remove(a)
                 self.entities.insert(y, new)
