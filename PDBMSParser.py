@@ -1,13 +1,10 @@
 import ply.yacc as yacc
-from PDBMS import Entity
 from PDBMS import Schema
 from PDBMSlexer import tokens
 
 x = Schema("Test")
 # ENTITIES --------------------------------------------------------------------------------
 # works
-
-
 def p_create(p): #create table tName (values)
     'Exp : CREATE TABLE WORDS LPAR def RPAR'
     x.add_entity(p[3])
@@ -50,15 +47,14 @@ def p_renameEntity(p): #rename table tName to tName2
     p[0] = "Table " + p[3] + " has been changed to " + p[5]
 
 
+# works
 def p_addColumnToEntity(p): #update tName where record = value with (values)
     'Exp : INSERT COLUMN term INTO WORDS'
     x.get_entity(p[5]).add_attribute(p[3])
     p[0] = "Inserted attribute "+p[3]+" into "+p[5]
 
 
-# RECORDS --------------------------------------------------------------------------------------------
-
-
+# RECORDS -------------------------------------------------------------------------------------------
 def p_insertIntoEntity(p): # insert (values) into tName
     'Exp : INSERT LPAR def RPAR INTO WORDS'
     y = x.get_entity(p[6])
@@ -76,18 +72,21 @@ def p_selectAllRecords(p): #show all from tName
 def p_selectRecord(p): #show rName from tName
     'Exp : SHOW WORDS FROM WORDS'
 
-
+# works
 def p_deleteRecord(p): #delete from tname where record = value
-    'Exp : DELETE FROM WORDS AT NUMBER'
-    x.get_entity(p[3]).mass_delete(p[5])
+    'Exp : DELETE FROM WORDS AT ROW NUMBER'
+    index = int(p[5])
+    x.get_entity(p[3]).mass_delete(index)
     p[0] = 'Deleted records from table '+p[3]
 
-
+# works
 def p_updateRecord(p): #update tName where record = value with (values)
-    'Exp : UPDATE WORDS AT NUMBER WITH LPAR def RPAR'
-    x.get_entity(p[3]).mass_delete(p[2])
-    string = p[7]
-    x.get_entity().mass_insert(string.split(":"))
+    'Exp : UPDATE WORDS AT ROW NUMBER WITH LPAR def RPAR'
+    index = int(p[5])
+    y = x.get_entity(p[2])
+    y.mass_delete(index)
+    string = p[8]
+    y.mass_insert(string.split(":"))
     p[0] = "Updated records in table "+p[2]
 
 
@@ -124,16 +123,13 @@ def p_error(p):
 
 yacc = yacc.yacc()
 
-# result = yacc.parse("create table yes (name:lasttname:age)")
-# print(result)
-
-while True:
-    try:
-        s = input('DBMS-> ')
-        s.lower()
-    except EOFError:
-        break
-    if not s:
-        continue
-    result = yacc.parse(s)
-    print(result)
+# while True:
+#     try:
+#         s = input('DBMS-> ')
+#         s.lower()
+#     except EOFError:
+#         break
+#     if not s:
+#         continue
+#     result = yacc.parse(s)
+#     print(result)

@@ -1,5 +1,5 @@
 #dummy class for now
-import PDBMSParser
+import PDBMSParser as parser
 
 while True:
     try:
@@ -9,6 +9,6 @@ while True:
         break
     if not s:
         continue
-    result = PDBMSParser.parser.parse(s)
+    result = parser.parser.parse(s)
     print(result)
 
