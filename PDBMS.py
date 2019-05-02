@@ -23,7 +23,6 @@ class Schema:
 
     def remove_entity(self, eName):
         for a in self.entities:
-            print("iterating")
             if getattr(a, 'entityName') == eName:
                 self.entities.remove(a)
                 print("Entity " + eName + " has been removed")
@@ -35,9 +34,11 @@ class Schema:
     def update_entity(self, old, new):
         for a in self.entities:
             if getattr(a, 'entityName') == old:
+                q = a;
                 y = self.entities.index(a)
-                self.entities.remove(a)
-                self.entities.insert(y, new)
+                break
+        self.entities.remove(q)
+        self.entities.insert(y, Entity(new))
 
     def rename_entity(self, oldName, newName):
         for a in self.entities:
@@ -48,7 +49,7 @@ class Schema:
 
 class Entity:
     def __init__(self, name: str):
-        self.entityName:str = name
+        self.entityName: str = name
         self.attribute = []
 
     def __repr__(self):
@@ -82,10 +83,11 @@ class Entity:
     def update_attribute(self, old, new):
         for a in self.attribute:
             if getattr(a, 'columnName') == old:
+                q = a;
                 y = self.attribute.index(a)
-                self.attribute.remove(a)
-                self.attribute.insert(y, Columns(new))
                 break
+        self.attribute.remove(q)
+        self.attribute.insert(y, Columns(new))
 
     # insert record into all columns. Must make sure that the order of arguments is the correct one
     def mass_insert(self, args):
@@ -118,17 +120,8 @@ class Entity:
             row.append(temp)
             temp = []
 
-
-        dash = '-' * 40
-
-        for i in range(len(row)):
-            if i == 0:
-                print(dash)
-                print('{:<10}{:>4}{:>12}'.format(str(row[i][0]), str(row[i][1]), str(row[i][2])))
-                print(dash)
-            else:
-                print('{:<10}{:>4}{:>20}'.format(str(row[i][0]), str(row[i][1]), str(row[i][2])))
-
+        for i in row:
+            print(i)
         return row
 
 
