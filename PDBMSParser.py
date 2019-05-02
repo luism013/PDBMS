@@ -1,13 +1,10 @@
 import ply.yacc as yacc
-from PDBMS import Entity
 from PDBMS import Schema
 from PDBMSlexer import tokens
 
 x = Schema("Test")
 # ENTITIES --------------------------------------------------------------------------------
 # works
-
-
 def p_create(p): #create table tName (values)
     'Exp : CREATE TABLE WORDS LPAR def RPAR'
     x.add_entity(p[3])
@@ -124,16 +121,13 @@ def p_error(p):
 
 yacc = yacc.yacc()
 
-# result = yacc.parse("create table yes (name:lasttname:age)")
-# print(result)
-
-while True:
-    try:
-        s = input('DBMS-> ')
-        s.lower()
-    except EOFError:
-        break
-    if not s:
-        continue
-    result = yacc.parse(s)
-    print(result)
+# while True:
+#     try:
+#         s = input('DBMS-> ')
+#         s.lower()
+#     except EOFError:
+#         break
+#     if not s:
+#         continue
+#     result = yacc.parse(s)
+#     print(result)
