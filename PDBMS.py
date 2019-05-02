@@ -22,13 +22,13 @@ class Schema:
         return self.entities
 
     def remove_entity(self, eName):
-        if self.get_entity(eName):
-     #   if self.get_entity(eName) not in self.entities:
-     #   if not self.entities.__contains__(self.get_entity(eName)):
-     #   if self.get_entity(eName) is None:
-            self.entities.remove(self.get_entity(eName))
-        else:
-            print("Entity " + eName + " does not exist in schema " + self.name + ".")
+        for a in self.entities:
+            print("iterating")
+            if getattr(a, 'entityName') == eName:
+                self.entities.remove(a)
+                print("Entity " + eName + " has been removed")
+                return
+        print("Entity " + eName + " does not exist in schema " + self.name + ".")
 
 
 
@@ -39,10 +39,16 @@ class Schema:
                 self.entities.remove(a)
                 self.entities.insert(y, new)
 
+    def rename_entity(self, oldName, newName):
+        for a in self.entities:
+            if getattr(a, 'entityName') == oldName:
+                setattr(a, 'entityName', newName)
+
+
 
 class Entity:
-    def __init__(self, name):
-        self.entityName = name
+    def __init__(self, name: str):
+        self.entityName:str = name
         self.attribute = []
 
     def __repr__(self):
@@ -75,12 +81,11 @@ class Entity:
 
     def update_attribute(self, old, new):
         for a in self.attribute:
-            if a.get_name() == old:
+            if getattr(a, 'columnName') == old:
                 y = self.attribute.index(a)
                 self.attribute.remove(a)
                 self.attribute.insert(y, Columns(new))
-
-
+                break
 
     # insert record into all columns. Must make sure that the order of arguments is the correct one
     def mass_insert(self, args):
@@ -107,7 +112,6 @@ class Entity:
 
     def show_all(self):
         row = [self.attribute]
-        columnsNum = len(self.attribute)
         temp = []
         for i in range(len(self.attribute)-1):
             for a in self.attribute:
@@ -117,15 +121,14 @@ class Entity:
 
 
         dash = '-' * 40
-        print(dash)
+
         for i in range(len(row)):
-            for j in range(columnsNum):
-                if i == 0:
-                    print('{:>2}'.format(str(row[i][j])), end=' ')
-                    if j == columnsNum-1:
-                        print(dash)
-                else:
-                    print('{:>2}'.format(str(row[i][j])), end=' ')
+            if i == 0:
+                print(dash)
+                print('{:<10}{:>4}{:>12}'.format(str(row[i][0]), str(row[i][1]), str(row[i][2])))
+                print(dash)
+            else:
+                print('{:<10}{:>4}{:>20}'.format(str(row[i][0]), str(row[i][1]), str(row[i][2])))
 
         return row
 
@@ -171,50 +174,47 @@ class Columns:
         self.records.pop(index)
 
 
-# # tests that the entity class still works
-# x = Schema("StudentClass")
-# # # print(x)
+# tests that the entity class still works
+x = Schema("StudentClass")
+# # print(x)
+x.add_entity("Student")
+# print(x.entities)
+# x.remove_entity("Student")
+# print(x.entities)
+
+
+# print(x.entities.__contains__("Student"))
 # x.add_entity("Student")
-# # print(x.entities)
-# # x.remove_entity("Student")
-# # print(x.entities)
-#
-#
-# # print(x.entities.__contains__("Student"))
-# # x.add_entity("Student")
-# # print (x.get_entity("Student"))
-# # x.remove_entity("Student")
-# # print(x.get_entity("Student"))
-# x.get_entity("Student").add_attribute("Grades")
-# x.get_entity("Student").add_attribute("Classes")
-# x.get_entity("Student").add_attribute("Professor")
-# x.get_entity("Student").update_attribute("Grades", "Notas")
-#
+# print (x.get_entity("Student"))
+# x.remove_entity("Student")
+# print(x.get_entity("Student"))
+x.get_entity("Student").add_attribute("Grades")
+x.get_entity("Student").add_attribute("Classes")
+x.get_entity("Student").add_attribute("Professor")
+x.get_entity("Student").update_attribute("Grades", "Notas")
+print(x.get_entity("Student").get_attributes())
+x.get_entity("Student").get_attribute("Notas").add_record("A")
+x.get_entity("Student").get_attribute("Classes").add_record("PL")
+x.get_entity("Student").get_attribute("Professor").add_record("Wilson Rivera")
+# print(x.get_entity("Student").get_attribute("Grades").get_records())
 # print(x.get_entity("Student").get_attributes())
-# x.get_entity("Student").get_attribute("Notas").add_record("A")
-# x.get_entity("Student").get_attribute("Classes").add_record("PL")
-# x.get_entity("Student").get_attribute("Professor").add_record("Wilson Rivera")
-# # print(x.get_entity("Student").get_attribute("Grades").get_records())
-# # print(x.get_entity("Student").get_attributes())
-# # print(x.get_entity("Student"))
-# x.get_entity("Student").mass_insert("W", "Data", "Pedro Rivera")
-# x.get_entity("Student").remove_attribute("Notas")
-# x.get_entity("Student").get_column("Classes")
-#
-# # x.get_entity("Student").mass_delete(0)
-# #x.get_entity("Student").get_attribute("Notas").update_record("A", "B")
+# print(x.get_entity("Student"))
+x.get_entity("Student").mass_insert("W", "Data", "Pedro Rivera")
+
+# x.get_entity("Student").mass_delete(0)
+x.get_entity("Student").get_attribute("Notas").update_record("A", "B")
+x.get_entity("Student").show_all()
+# print(x.get_entity("Student").get_attribute("Grades").get_records())
+# print(x.get_entity("Student").get_attribute("Professor").get_records())
+# print(x.get_entity("Student").get_attribute("Classes").get_records())
 # x.get_entity("Student").show_all()
-# # print(x.get_entity("Student").get_attribute("Grades").get_records())
-# # print(x.get_entity("Student").get_attribute("Professor").get_records())
-# # print(x.get_entity("Student").get_attribute("Classes").get_records())
-# # x.get_entity("Student").show_all()
-# # print("Before remove")
-# # print(x.entities)
-# # x.remove_entity("Student")
-# # print("After remove")
-# # print(x.entities)
-# # x.get_entity("Student").mass_delete(0)
-# # print(x.get_entity("Student").get_attribute("Grades").get_records())
-# # print(x.get_entity("Student").get_attribute("Professor").get_records())
-# # print(x.get_entity("Student").get_attribute("Classes").get_records())
-#
+# print("Before remove")
+# print(x.entities)
+# x.remove_entity("Student")
+# print("After remove")
+# print(x.entities)
+# x.get_entity("Student").mass_delete(0)
+# print(x.get_entity("Student").get_attribute("Grades").get_records())
+# print(x.get_entity("Student").get_attribute("Professor").get_records())
+# print(x.get_entity("Student").get_attribute("Classes").get_records())
+

@@ -11,7 +11,7 @@ reserved = {
     'values': 'VALUES',
     'into': 'INTO',
     'column': 'COLUMN',
-    'where' : 'WHERE',
+    'where': 'WHERE',
     'record': 'RECORD',
     'all': 'ALL',
     'from': 'FROM',
@@ -19,7 +19,12 @@ reserved = {
     'entities': 'ENTITIES',
     'tables': 'TABLES',
     'with': 'WITH',
-    'row': 'ROW'
+    'row': 'ROW',
+    'rename':'RENAME',
+    'entity': 'Entity',
+    'with': 'WITH',
+    'at': 'AT',
+    'to': 'TO'
 }
 
 tokens = ['WORDS', 'NUMBER', 'LPAR', 'RPAR', 'COLON', 'EQUALS'] + list(reserved.values())
