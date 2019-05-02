@@ -22,7 +22,8 @@ reserved = {
     'tables': 'TABLES',
     'with': 'WITH',
     'at': 'AT',
-    'to': 'TO'
+    'to': 'TO',
+    'row': 'ROW'
 }
 
 tokens = ['WORDS', 'NUMBER', 'LPAR', 'RPAR', 'COLON', 'EQUALS'] + list(reserved.values())
