@@ -48,7 +48,7 @@ def p_renameEntity(p): #rename table tName to tName2
 
 
 # works
-def p_addColumnToEntity(p): #update tName where record = value with (values)
+def p_addColumnToEntity(p): #insert column cName into tName
     'Exp : INSERT COLUMN term INTO WORDS'
     x.get_entity(p[5]).add_attribute(p[3])
     p[0] = "Inserted attribute "+p[3]+" into "+p[5]
@@ -73,14 +73,14 @@ def p_selectRecord(p): #show rName from tName
     'Exp : SHOW WORDS FROM WORDS'
 
 # works
-def p_deleteRecord(p): #delete from tname where record = value
+def p_deleteRecord(p): #delete from tname at row index
     'Exp : DELETE FROM WORDS AT ROW NUMBER'
-    index = int(p[5])
+    index = int(p[6])
     x.get_entity(p[3]).mass_delete(index)
     p[0] = 'Deleted records from table '+p[3]
 
 # works
-def p_updateRecord(p): #update tName where record = value with (values)
+def p_updateRecord(p): #update tName at row index with (values)
     'Exp : UPDATE WORDS AT ROW NUMBER WITH LPAR def RPAR'
     index = int(p[5])
     y = x.get_entity(p[2])

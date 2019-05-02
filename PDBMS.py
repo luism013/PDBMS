@@ -96,7 +96,6 @@ class Entity:
 
     #delete record from all columns
     def mass_delete(self, index):
-        print(len(self.attribute))
         for a in self.attribute:
             a.remove_record_by_index(index)
 

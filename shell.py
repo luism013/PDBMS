@@ -9,6 +9,6 @@ while True:
         break
     if not s:
         continue
-    result = parser.parser.parse(s)
+    result = parser.yacc.parse(s)
     print(result)
 
