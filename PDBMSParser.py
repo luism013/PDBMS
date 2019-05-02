@@ -136,13 +136,13 @@ def p_error(p):
 
 yacc = yacc.yacc()
 
-while True:
-    try:
-        s = input('DBMS-> ')
-        s.lower()
-    except EOFError:
-        break
-    if not s:
-        continue
-    result = yacc.parse(s)
-    print(result)
+# while True:
+#     try:
+#         s = input('DBMS-> ')
+#         s.lower()
+#     except EOFError:
+#         break
+#     if not s:
+#         continue
+#     result = yacc.parse(s)
+# print(result)

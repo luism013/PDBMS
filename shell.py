@@ -1,4 +1,3 @@
-#dummy class for now
 import PDBMSParser as parser
 
 while True:

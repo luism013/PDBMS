@@ -34,7 +34,7 @@ class Schema:
     def update_entity(self, old, new):
         for a in self.entities:
             if getattr(a, 'entityName') == old:
-                q = a;
+                q = a
                 y = self.entities.index(a)
                 break
         self.entities.remove(q)
@@ -83,7 +83,7 @@ class Entity:
     def update_attribute(self, old, new):
         for a in self.attribute:
             if getattr(a, 'columnName') == old:
-                q = a;
+                q = a
                 y = self.attribute.index(a)
                 break
         self.attribute.remove(q)
@@ -156,13 +156,12 @@ class Columns:
         for a in self.records:
             if a == old:
                 y = self.records.index(a)
-                self.records.remove(a)
-                self.records.insert(y, new)
+                q = a
+        self.records.remove(q)
+        self.records.insert(y, new)
 
     def select_record_by_index(self, index):
         return self.records[index]
 
     def remove_record_by_index(self, index):
         self.records.pop(index)
-
-
