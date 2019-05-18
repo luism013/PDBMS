@@ -45,11 +45,23 @@ class Schema:
             if getattr(a, 'entityName') == oldName:
                 setattr(a, 'entityName', newName)
 
-
+    def help(self):
+        print("Welcome to PDBMS")
+        print("These are the available commands:")
+        print("1- create table name (attr:attr:attr)")
+        print("2- insert(attr:attr:attr) into name")
+        print("3- show all tables")
+        print("4- show table name")
+        print("5- show row number from name")
+        print("6- update name at number with (attr:attr:attr:)")
+        print("7- rename table name to name")
+        print("8- insert column name into name")
+        print("9- delete table name")
+        print("10- delete from name at row number")
 
 class Entity:
-    def __init__(self, name: str):
-        self.entityName: str = name
+    def __init__(self, name):
+        self.entityName = name
         self.attribute = []
 
     def __repr__(self):
@@ -110,10 +122,24 @@ class Entity:
 
         print(row)
 
-
-    def show_all(self):
+    def show_all1(self):
         row = [self.attribute]
         temp = []
+
+        for i in range(len(self.attribute)):
+            for a in self.attribute:
+                temp.append(a.select_record_by_index(i))
+            row.append(temp)
+            temp = []
+
+        for i in row:
+            print(i)
+        return row
+
+    def show_all2(self):
+        row = [self.attribute]
+        temp = []
+
         for i in range(len(self.attribute)-1):
             for a in self.attribute:
                 temp.append(a.select_record_by_index(i))
@@ -127,7 +153,7 @@ class Entity:
 
 
 class Columns:
-    def __init__(self, cname: str):
+    def __init__(self, cname):
         self.columnName = cname
         self.records = []
 

@@ -25,7 +25,8 @@ reserved = {
     'with': 'WITH',
     'at': 'AT',
     'to': 'TO',
-    'row': 'ROW'
+    'row': 'ROW',
+    'help': 'HELP'
 }
 
 tokens = ['WORDS', 'NUMBER', 'LPAR', 'RPAR', 'COLON', 'EQUALS'] + list(reserved.values())
